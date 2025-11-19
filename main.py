@@ -57,14 +57,17 @@ def residual_norm(A: np.ndarray, x: np.ndarray, b: np.ndarray) -> float | None:
         Jeżeli dane wejściowe są niepoprawne funkcja zwraca `None`.
     """
 
-    if not (isinstance(A, np.ndarray) and isinstance(x, np.ndarray) and isinstance(b, np.ndarray)):     
-        return None
-    
-    if A.shape[1] != x.shape[0] or A.shape[1] != b.shape[0]:
+    if not (isinstance(A, np.ndarray) and isinstance(x, np.ndarray) and isinstance(b, np.ndarray)):
         return None
     
     if A.ndim != 2 or x.ndim != 1 or b.ndim != 1:
         return None
+
+    m, n = A.shape
+
+    if n != x.shape[0]:
+        return None
+    if m != b.shape[0]:
+        return None
     
-    
-    return  float(np.linalg.norm(b - (A @ x)))
+    return float(np.linalg.norm(b - (A @ x)))
